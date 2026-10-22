@@ -18,13 +18,18 @@ namespace DVLD_BusinessLayer
         public string LastName { get; set; }
          public string NationalNo { get; set; }
         public DateTime DateOfBirth { get; set; }
-        public byte Gendor { get; set; }
+        public short Gendor { get; set; }
         public  string   Address { get; set; }
         public string  Phone { get; set; }
         public string Email { get; set; }
         public  int NationalityCountryID { get; set; }
         public  string ImagePath { get; set; }
         Mode _Mode;
+
+        public string FullName()
+        {
+            return FirstName+ " "+SecondName+" "+ThirdName+" "+LastName;
+        }
         public clsPeople()
         {
             PersonID = -1;
@@ -48,14 +53,15 @@ namespace DVLD_BusinessLayer
 
         private bool _AddNewPerson()
         {
-            int ID = -1;
-            ID = clsPeopleDataAccessLayer.AddNewPerson(this.FirstName, this.SecondName, this.ThirdName, this.LastName, this.NationalNo, this.DateOfBirth, this.Gendor, this.Address, this.Phone, this.Email, this.NationalityCountryID, this.ImagePath);
-            this.PersonID = ID;
-           return ID != -1;
+         
+            this.PersonID = clsPeopleDataAccessLayer.AddNewPerson(this.FirstName, this.SecondName, this.ThirdName, this.LastName, this.NationalNo, this.DateOfBirth, this.Gendor, this.Address, this.Phone, this.Email, this.NationalityCountryID, this.ImagePath);
+         
+           return (this.PersonID!=-1);
+
         }
 
         private clsPeople(int PersonID ,string FirstName,string SecondName ,string ThirdName ,string LastName,
-            string NationalNo,DateTime DateOfBirth,byte Gendor,string Address ,string Phone ,string Email, int NationalityCountryID
+            string NationalNo,DateTime DateOfBirth,short Gendor,string Address ,string Phone ,string Email, int NationalityCountryID
             ,string ImagePath)
         {
             this.PersonID = PersonID;
@@ -91,7 +97,7 @@ namespace DVLD_BusinessLayer
          string Email = "";
          int NationalityCountryID = -1;
          string ImagePath = "";
-            byte Gendor = 0;
+            short Gendor = 0;
 
             if(clsPeopleDataAccessLayer.GetPersonByID(PersonID, ref  FirstName, ref  SecondName, ref  ThirdName, ref  LastName,
            ref  NationalNo, ref  DateOfBirth, ref  Gendor, ref  Address, ref  Phone, ref  Email, ref  NationalityCountryID
@@ -122,7 +128,7 @@ namespace DVLD_BusinessLayer
             string Email = "";
             int NationalityCountryID = -1;
             string ImagePath = "";
-            byte Gendor = 0;
+            short Gendor = 0;
 
             if (clsPeopleDataAccessLayer.GetPersonByNationalNo(ref ID, ref FirstName, ref SecondName, ref ThirdName, ref LastName,
             NationaltNumber, ref DateOfBirth, ref Gendor, ref Address, ref Phone, ref Email, ref NationalityCountryID
@@ -150,10 +156,14 @@ namespace DVLD_BusinessLayer
                         return true;
 
                     }
-                    return false;
+                    else
+                    {
+                        return false;
+
+                    }
                     break;
                 case Mode.Update:
-                   
+                    this._Mode = Mode.Update;
                     return true;
                     break;
                 default:

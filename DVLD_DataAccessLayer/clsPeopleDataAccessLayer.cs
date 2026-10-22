@@ -11,7 +11,7 @@ namespace DVLD_DataAccessLayer
     public static class clsPeopleDataAccessLayer
     {
         public static bool GetPersonByID( int PersonID, ref string FirstName, ref string SecondName, ref string ThirdName, ref string LastName,
-           ref string NationalNo, ref DateTime DateOfBirth, ref byte Gendor, ref string Address, ref string Phone, ref string Email, ref int NationalityCountryID
+           ref string NationalNo, ref DateTime DateOfBirth, ref short Gendor, ref string Address, ref string Phone, ref string Email, ref int NationalityCountryID
             , ref string ImagePath)
 
         {
@@ -42,20 +42,24 @@ namespace DVLD_DataAccessLayer
                      Address= (string)sqlDataReader["Address"];
                      Phone= (string)sqlDataReader["Phone"];
                      DateOfBirth= (DateTime)sqlDataReader["DateOfBirth"];
-                    Gendor = (byte)sqlDataReader["Gender"];
-                       NationalityCountryID = (int)sqlDataReader["NationalityCountryID"];
+                    Gendor = short.Parse(sqlDataReader["Gender"].ToString());
+                    NationalityCountryID = (int)sqlDataReader["NationalityCountryID"];
 
 
 
                 }
                 sqlDataReader.Close();
-                connection.Close();
+              
             }
             catch (SqlException ex)
             {
 
-                connection.Close();
+               
                 IsFoud = false;
+            }
+            finally
+            {
+                connection.Close();
             }
             return IsFoud;
         }
@@ -63,7 +67,7 @@ namespace DVLD_DataAccessLayer
 
 
         public static bool GetPersonByNationalNo(ref int PersonID, ref string FirstName, ref string SecondName, ref string ThirdName, ref string LastName,
-          string NationalNo, ref DateTime DateOfBirth, ref byte Gendor, ref string Address, ref string Phone, ref string Email, ref int NationalityCountryID
+          string NationalNo, ref DateTime DateOfBirth, ref short Gendor, ref string Address, ref string Phone, ref string Email, ref int NationalityCountryID
           , ref string ImagePath)
 
         {
@@ -96,20 +100,24 @@ namespace DVLD_DataAccessLayer
                     Address = (string)sqlDataReader["Address"];
                     Phone = (string)sqlDataReader["Phone"];
                     DateOfBirth = (DateTime)sqlDataReader["DateOfBirth"];
-                    Gendor = (byte)sqlDataReader["Gender"];
+                    Gendor = short.Parse(sqlDataReader["Gender"].ToString());
                     NationalityCountryID = (int)sqlDataReader["NationalityCountryID"];
 
 
 
                 }
                 sqlDataReader.Close();
-                connection.Close();
+              
             }
             catch (SqlException ex)
             {
 
-                connection.Close();
+              
                 IsFoud = false;
+            }
+            finally
+            {
+                connection.Close();
             }
             return IsFoud;
         }
@@ -117,7 +125,7 @@ namespace DVLD_DataAccessLayer
 
 
         public static int AddNewPerson(string FirstName, string SecondName, string ThirdName, string LastName,
-            string NationalNo, DateTime DateOfBirth, byte Gendor, string Address, string Phone, string Email, int NationalityCountryID
+            string NationalNo, DateTime DateOfBirth, short Gendor, string Address, string Phone, string Email, int NationalityCountryID
             , string ImagePath)
 
         {
@@ -202,12 +210,16 @@ namespace DVLD_DataAccessLayer
                 }
                 
 
-                connection.Close();
+              
 
             }
             catch (Exception)
             {
 
+               
+            }
+            finally
+            {
                 connection.Close();
             }
 
