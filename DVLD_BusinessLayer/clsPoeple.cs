@@ -43,6 +43,17 @@ namespace DVLD_BusinessLayer
             _Mode = Mode.AddNew;
         }
 
+
+
+
+        private bool _AddNewPerson()
+        {
+            int ID = -1;
+            ID = clsPeopleDataAccessLayer.AddNewPerson(this.FirstName, this.SecondName, this.ThirdName, this.LastName, this.NationalNo, this.DateOfBirth, this.Gendor, this.Address, this.Phone, this.Email, this.NationalityCountryID, this.ImagePath);
+            this.PersonID = ID;
+           return ID != -1;
+        }
+
         private clsPeople(int PersonID ,string FirstName,string SecondName ,string ThirdName ,string LastName,
             string NationalNo,DateTime DateOfBirth,byte Gendor,string Address ,string Phone ,string Email, int NationalityCountryID
             ,string ImagePath)
@@ -96,5 +107,60 @@ namespace DVLD_BusinessLayer
             }
         }
 
+
+        public static clsPeople Find(string NationaltNumber)
+        {
+            int ID = -1;
+            string FirstName = "";
+            string SecondName = "";
+            string ThirdName = "";
+            string LastName = "";
+          
+            DateTime DateOfBirth = DateTime.Now;
+            string Address = "";
+            string Phone = "";
+            string Email = "";
+            int NationalityCountryID = -1;
+            string ImagePath = "";
+            byte Gendor = 0;
+
+            if (clsPeopleDataAccessLayer.GetPersonByNationalNo(ref ID, ref FirstName, ref SecondName, ref ThirdName, ref LastName,
+            NationaltNumber, ref DateOfBirth, ref Gendor, ref Address, ref Phone, ref Email, ref NationalityCountryID
+            , ref ImagePath))
+            {
+                return new clsPeople(ID, FirstName, SecondName, ThirdName, LastName,
+             NationaltNumber, DateOfBirth, Gendor, Address, Phone, Email, NationalityCountryID
+            , ImagePath);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public bool Save()
+        {
+            switch (_Mode)
+            {
+                case Mode.AddNew:
+                    if(_AddNewPerson())
+                    {
+                        _Mode=Mode.Update;
+                        return true;
+
+                    }
+                    return false;
+                    break;
+                case Mode.Update:
+                   
+                    return true;
+                    break;
+                default:
+                    break;
+            }
+
+            return false;
+        }
     }
 }
