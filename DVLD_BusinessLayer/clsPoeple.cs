@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DVLD_DataAccessLayer;
 
+using System.Data;
+
 namespace DVLD_BusinessLayer
 {
     public class clsPeople
@@ -59,7 +61,14 @@ namespace DVLD_BusinessLayer
            return (this.PersonID!=-1);
 
         }
+        private bool _UpdatePerson()
+        {
 
+            return clsPeopleDataAccessLayer.UpdatePerson(this.PersonID,this.FirstName, this.SecondName, this.ThirdName, this.LastName, this.NationalNo, this.DateOfBirth, this.Gendor, this.Address, this.Phone, this.Email, this.NationalityCountryID, this.ImagePath);
+
+             
+
+        }
         private clsPeople(int PersonID ,string FirstName,string SecondName ,string ThirdName ,string LastName,
             string NationalNo,DateTime DateOfBirth,short Gendor,string Address ,string Phone ,string Email, int NationalityCountryID
             ,string ImagePath)
@@ -144,6 +153,32 @@ namespace DVLD_BusinessLayer
             }
         }
 
+        public static  bool IstPersonByIDExis(int PersonID)
+        {
+            return clsPeopleDataAccessLayer.IsPersonByIDExist(PersonID);
+        }
+
+        public static bool IsPersonByNationalNoExist(string NationalNo)
+        {
+            return clsPeopleDataAccessLayer.IsPersonByNationalNoExist(NationalNo);
+        }
+
+         public static  DataTable AllPerson()
+        {
+            return clsPeopleDataAccessLayer.GetAllPeople();
+        }
+
+
+       public static bool DeletePerson(int PersonID)
+        {
+            return clsPeopleDataAccessLayer.DeletePersonByID(PersonID);
+        }
+
+         public static bool DeletePerson(string NationalNo)
+        {
+            return clsPeopleDataAccessLayer.DeletePersonByNationalNo(NationalNo);
+        }
+
 
         public bool Save()
         {
@@ -164,7 +199,7 @@ namespace DVLD_BusinessLayer
                     break;
                 case Mode.Update:
                     this._Mode = Mode.Update;
-                    return true;
+                    return _UpdatePerson();
                     break;
                 default:
                     break;
@@ -172,5 +207,6 @@ namespace DVLD_BusinessLayer
 
             return false;
         }
+       
     }
 }

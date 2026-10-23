@@ -10,13 +10,13 @@ namespace DVLD_DataAccessLayer
 {
     public static class clsPeopleDataAccessLayer
     {
-        public static bool GetPersonByID( int PersonID, ref string FirstName, ref string SecondName, ref string ThirdName, ref string LastName,
+        public static bool GetPersonByID(int PersonID, ref string FirstName, ref string SecondName, ref string ThirdName, ref string LastName,
            ref string NationalNo, ref DateTime DateOfBirth, ref short Gendor, ref string Address, ref string Phone, ref string Email, ref int NationalityCountryID
             , ref string ImagePath)
 
         {
             bool IsFoud = false;
-            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString) ;
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
             string query = @"select *from People
                              where PersonID=@PersonID";
             SqlCommand cmd = new SqlCommand(query, connection);
@@ -25,23 +25,23 @@ namespace DVLD_DataAccessLayer
             try
             {
                 connection.Open();
-               SqlDataReader sqlDataReader = cmd.ExecuteReader();
+                SqlDataReader sqlDataReader = cmd.ExecuteReader();
 
-                if(sqlDataReader.Read())
+                if (sqlDataReader.Read())
                 {
-                    IsFoud=true;
+                    IsFoud = true;
                     FirstName = (string)sqlDataReader["FirstName"];
-                    SecondName= (string)sqlDataReader["SecondName"];
+                    SecondName = (string)sqlDataReader["SecondName"];
 
                     ThirdName = (sqlDataReader["ThirdName"] != DBNull.Value) ? (string)sqlDataReader["ThirdName"] : "";
                     Email = (sqlDataReader["Email"] != DBNull.Value) ? (string)sqlDataReader["Email"] : "";
-                    ImagePath = (sqlDataReader["ImagePath"] != DBNull.Value) ?(string)sqlDataReader["ImagePath"] : "";
+                    ImagePath = (sqlDataReader["ImagePath"] != DBNull.Value) ? (string)sqlDataReader["ImagePath"] : "";
 
                     LastName = (string)sqlDataReader["LastName"];
-                    NationalNo= (string)sqlDataReader["NationalNo"];
-                     Address= (string)sqlDataReader["Address"];
-                     Phone= (string)sqlDataReader["Phone"];
-                     DateOfBirth= (DateTime)sqlDataReader["DateOfBirth"];
+                    NationalNo = (string)sqlDataReader["NationalNo"];
+                    Address = (string)sqlDataReader["Address"];
+                    Phone = (string)sqlDataReader["Phone"];
+                    DateOfBirth = (DateTime)sqlDataReader["DateOfBirth"];
                     Gendor = short.Parse(sqlDataReader["Gender"].ToString());
                     NationalityCountryID = (int)sqlDataReader["NationalityCountryID"];
 
@@ -49,12 +49,12 @@ namespace DVLD_DataAccessLayer
 
                 }
                 sqlDataReader.Close();
-              
+
             }
             catch (SqlException ex)
             {
 
-               
+
                 IsFoud = false;
             }
             finally
@@ -87,7 +87,7 @@ namespace DVLD_DataAccessLayer
                 {
                     IsFoud = true;
 
-                    PersonID=(int)sqlDataReader["PersonID"];
+                    PersonID = (int)sqlDataReader["PersonID"];
                     FirstName = (string)sqlDataReader["FirstName"];
                     SecondName = (string)sqlDataReader["SecondName"];
 
@@ -96,7 +96,7 @@ namespace DVLD_DataAccessLayer
                     ImagePath = (sqlDataReader["ImagePath"] != DBNull.Value) ? (string)sqlDataReader["ImagePath"] : "";
 
                     LastName = (string)sqlDataReader["LastName"];
-                    
+
                     Address = (string)sqlDataReader["Address"];
                     Phone = (string)sqlDataReader["Phone"];
                     DateOfBirth = (DateTime)sqlDataReader["DateOfBirth"];
@@ -107,12 +107,12 @@ namespace DVLD_DataAccessLayer
 
                 }
                 sqlDataReader.Close();
-              
+
             }
             catch (SqlException ex)
             {
 
-              
+
                 IsFoud = false;
             }
             finally
@@ -160,18 +160,18 @@ namespace DVLD_DataAccessLayer
            ,@ImagePath)
               select SCOPE_IDENTITY()";
 
-            SqlCommand command =new SqlCommand(Query, connection);
+            SqlCommand command = new SqlCommand(Query, connection);
 
             command.Parameters.AddWithValue(@"FirstName", FirstName);
-            command.Parameters.AddWithValue(@"SecondName",SecondName);
-             command.Parameters.AddWithValue(@"LastName", LastName);
+            command.Parameters.AddWithValue(@"SecondName", SecondName);
+            command.Parameters.AddWithValue(@"LastName", LastName);
             command.Parameters.AddWithValue(@"Address", Address);
             command.Parameters.AddWithValue(@"DateOfBirth", DateOfBirth);
-             command.Parameters.AddWithValue(@"Gender", Gendor);
-             command.Parameters.AddWithValue(@"Phone", Phone);
-               command.Parameters.AddWithValue(@"NationalityCountryID", NationalityCountryID);
-              command.Parameters.AddWithValue(@"NationalNo", NationalNo);
-             
+            command.Parameters.AddWithValue(@"Gender", Gendor);
+            command.Parameters.AddWithValue(@"Phone", Phone);
+            command.Parameters.AddWithValue(@"NationalityCountryID", NationalityCountryID);
+            command.Parameters.AddWithValue(@"NationalNo", NationalNo);
+
 
 
 
@@ -179,7 +179,7 @@ namespace DVLD_DataAccessLayer
             {
                 command.Parameters.AddWithValue(@"ThirdName", ThirdName);
             }
-            else 
+            else
             { command.Parameters.AddWithValue(@"ThirdName", DBNull.Value); }
 
             if (Email != "")
@@ -188,7 +188,8 @@ namespace DVLD_DataAccessLayer
                 command.Parameters.AddWithValue(@"Email", Email);
             }
             else
-            { command.Parameters.AddWithValue(@"Email", DBNull.Value);
+            {
+                command.Parameters.AddWithValue(@"Email", DBNull.Value);
             }
 
             if (ImagePath != "")
@@ -203,20 +204,20 @@ namespace DVLD_DataAccessLayer
             {
                 connection.Open();
 
-                object newId=command.ExecuteScalar();
-                if (newId != null&&int.TryParse(newId.ToString(),out int ID))
+                object newId = command.ExecuteScalar();
+                if (newId != null && int.TryParse(newId.ToString(), out int ID))
                 {
-                     NewAddedPersonID=ID;
+                    NewAddedPersonID = ID;
                 }
-                
 
-              
+
+
 
             }
             catch (Exception)
             {
 
-               
+
             }
             finally
             {
@@ -224,6 +225,261 @@ namespace DVLD_DataAccessLayer
             }
 
             return NewAddedPersonID;
+        }
+
+        public static bool UpdatePerson(int ID, string FirstName, string SecondName, string ThirdName, string LastName,
+          string NationalNo, DateTime DateOfBirth, short Gendor, string Address, string Phone, string Email, int NationalityCountryID
+          , string ImagePath)
+
+        {
+            int RowEfected = -1;
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+
+            string Query = @"UPDATE People
+                           SET NationalNo=@NationalNo  
+                               ,FirstName     =         @FirstName   
+                               ,SecondName    =         @SecondName  
+                               ,ThirdName     =         @ThirdName   
+                               ,LastName      =         @LastName    
+                               ,DateOfBirth   =         @DateOfBirth 
+                               ,Gender        =         @Gender      
+                               ,Address       =         @Address     
+                               ,Phone         =         @Phone       
+                               ,Email         =         @Email       
+                               ,NationalityCountryID =  @NationalityCountryID 
+                               ,ImagePath=              @ImagePath
+                             WHERE PersonID=@ID";
+
+            SqlCommand command = new SqlCommand(Query, connection);
+
+            command.Parameters.AddWithValue(@"FirstName", FirstName);
+            command.Parameters.AddWithValue(@"SecondName", SecondName);
+            command.Parameters.AddWithValue(@"LastName", LastName);
+            command.Parameters.AddWithValue(@"Address", Address);
+            command.Parameters.AddWithValue(@"DateOfBirth", DateOfBirth);
+            command.Parameters.AddWithValue(@"Gender", Gendor);
+            command.Parameters.AddWithValue(@"Phone", Phone);
+            command.Parameters.AddWithValue(@"NationalityCountryID", NationalityCountryID);
+            command.Parameters.AddWithValue(@"NationalNo", NationalNo);
+            command.Parameters.AddWithValue(@"ID", ID);
+
+
+
+
+            if (ThirdName != "")
+            {
+                command.Parameters.AddWithValue(@"ThirdName", ThirdName);
+            }
+            else
+            { command.Parameters.AddWithValue(@"ThirdName", DBNull.Value); }
+
+            if (Email != "")
+
+            {
+                command.Parameters.AddWithValue(@"Email", Email);
+            }
+            else
+            {
+                command.Parameters.AddWithValue(@"Email", DBNull.Value);
+            }
+
+            if (ImagePath != "")
+
+            {
+                command.Parameters.AddWithValue(@"ImagePath", ImagePath);
+            }
+            else
+            { command.Parameters.AddWithValue(@"ImagePath", DBNull.Value); }
+
+            try
+            {
+                connection.Open();
+
+                RowEfected = command.ExecuteNonQuery();
+
+
+
+            }
+            catch (Exception)
+            {
+
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return (RowEfected > 0);
+        }
+
+        public static bool IsPersonByIDExist(int PersonID)
+        {
+            bool IsFound = false;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+
+            string query = @"select Found =1 from People
+                             where PersonID=@PersonID";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.AddWithValue(@"PersonID", PersonID);
+
+            try
+            {
+                connection.Open();
+
+               SqlDataReader reader= cmd.ExecuteReader();
+                IsFound = reader.HasRows;
+                reader.Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return IsFound;
+
+
+        }
+
+
+
+        public static bool IsPersonByNationalNoExist(string NationalNo)
+        {
+            bool IsFount =false;
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+
+            string query = @"select Found =1 from People
+                             where NationalNo=@NationalNo";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.AddWithValue(@"NationalNo", NationalNo);
+
+            try
+            {
+                connection.Open();
+
+                  SqlDataReader reader=cmd.ExecuteReader();
+
+                IsFount = reader.HasRows;
+
+                reader.Close();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return IsFount;
+
+
+        }
+
+
+
+        public static DataTable GetAllPeople()
+        {
+            DataTable dataTable = new DataTable();
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            string Query = @"select * from People ";
+            SqlCommand cmd = new SqlCommand(Query, connection);
+
+
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dataTable.Load(reader);
+                }
+
+                 reader.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dataTable;
+        }
+
+        public static bool DeletePersonByID(int PersonID)
+        {
+            int RowEfected = -1;
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            string query = @"delete from People
+                             where PersonID=@PersonID";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.AddWithValue(@"PersonID", PersonID);
+
+            try
+            {
+                connection.Open();
+
+                 RowEfected = cmd.ExecuteNonQuery();
+                
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return RowEfected > 0;
+
+
+        }
+
+
+        public static bool DeletePersonByNationalNo(string NationalNo)
+        {
+            int RowEfected = -1;
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            string query = @"delete from People
+                             where NationalNo=@NationalNo";
+
+            SqlCommand cmd = new SqlCommand(query, connection);
+
+            cmd.Parameters.AddWithValue(@"NationalNo", NationalNo);
+
+            try
+            {
+                connection.Open();
+
+                RowEfected = cmd.ExecuteNonQuery();
+                
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return (RowEfected > 0);
+
+
         }
     }
 }
