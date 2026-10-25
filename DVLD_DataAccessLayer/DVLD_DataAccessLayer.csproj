@@ -48,6 +48,7 @@
     <Compile Include="clsCountriesDAL.cs" />
     <Compile Include="clsDataAccessSetting.cs" />
     <Compile Include="clsPeopleDataAccessLayer.cs" />
+    <Compile Include="clsTestTypesDAL.cs" />
     <Compile Include="clsUsersDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
