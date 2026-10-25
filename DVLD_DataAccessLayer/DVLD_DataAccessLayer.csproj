@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsApplicationsDAL.cs" />
     <Compile Include="clsApplicationTypesDAL.cs" />
     <Compile Include="clsCountriesDAL.cs" />
     <Compile Include="clsDataAccessSetting.cs" />
