@@ -50,6 +50,7 @@
     <Compile Include="clsDataAccessSetting.cs" />
     <Compile Include="clsLicenseClassesDAL.cs" />
     <Compile Include="clsPeopleDataAccessLayer.cs" />
+    <Compile Include="clsTestsResultDAL.cs" />
     <Compile Include="clsTestTypesDAL.cs" />
     <Compile Include="clsUsersDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
