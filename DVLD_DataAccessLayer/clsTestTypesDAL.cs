@@ -162,7 +162,10 @@ using System.Data;
 
         SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
 
-        string Query = "Select * from TestTypes Where TestTypeID=@TestTypeID";
+        string Query = @"Select found =1 from TestTypes
+                         Where 
+                              TestTypeID=@TestTypeID";
+
         SqlCommand cmd = new SqlCommand(Query, connection);
         cmd.Parameters.AddWithValue("@TestTypeID", TestTypeID);
 
@@ -176,7 +179,7 @@ using System.Data;
             reader.Close();
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
            
         }

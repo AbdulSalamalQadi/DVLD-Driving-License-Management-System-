@@ -159,8 +159,11 @@ public class clsApplicationTypesDAL
 
         SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
 
-        string Query = "Select * from ApplicationTypes Where ApplicationTypeID=@ApplicationTypeID";
+        string Query = @"Select found=1 from ApplicationTypes 
+                             Where
+                         ApplicationTypeID=@ApplicationTypeID";
         SqlCommand cmd = new SqlCommand(Query, connection);
+
         cmd.Parameters.AddWithValue("@ApplicationTypeID", ApplicationTypeID);
 
         try
@@ -173,7 +176,7 @@ public class clsApplicationTypesDAL
             reader.Close();
 
         }
-        catch (Exception ex)
+        catch (Exception)
         {
            
         }

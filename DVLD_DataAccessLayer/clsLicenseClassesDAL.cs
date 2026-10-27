@@ -189,8 +189,9 @@ using System.Data;
 
         SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
 
-                      string Query = @"Select * from LicenseClasses
-                    Where LicenseClassID=@LicenseClassID";
+                      string Query = @"Select found=1 from LicenseClasses
+                                            Where 
+                                    LicenseClassID=@LicenseClassID";
 
         SqlCommand cmd = new SqlCommand(Query, connection);
         cmd.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
