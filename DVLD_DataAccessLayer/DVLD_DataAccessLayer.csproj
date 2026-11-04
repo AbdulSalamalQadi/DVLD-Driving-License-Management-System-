@@ -49,6 +49,7 @@
     <Compile Include="clsCountriesDAL.cs" />
     <Compile Include="clsDataAccessSetting.cs" />
     <Compile Include="clsLicenseClassesDAL.cs" />
+    <Compile Include="clsLocalDrivingLicenseApplicationsADL.cs" />
     <Compile Include="clsPeopleDataAccessLayer.cs" />
     <Compile Include="clsTestsResultDAL.cs" />
     <Compile Include="clsTestTypesDAL.cs" />
