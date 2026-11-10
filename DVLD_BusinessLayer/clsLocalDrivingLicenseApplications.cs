@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 public class clsLocalDrivingLicenseApplications
  {
     private enum Mode { AddNew=0, Update=1}
@@ -17,8 +18,13 @@ public class clsLocalDrivingLicenseApplications
         this.LocalDrivingLicenseApplicationID = clsLocalDrivingLicenseApplicationsADL.AddNewLocalDrivingLiceseApplication(this.ApplicationID, this.LicenseClassID);
         return (this.LocalDrivingLicenseApplicationID > 0);
     }
+    private bool _UpdataLDLA()
+    {
 
-      private clsLocalDrivingLicenseApplications(int LocalDrivingLicenseApplicationID,int ApplicationID ,int LicenseClassID)
+        return clsLocalDrivingLicenseApplicationsADL.UpdataLocalDrivingLiceseApplication(this.LocalDrivingLicenseApplicationID,this.ApplicationID, this.LicenseClassID);
+    }
+
+    private clsLocalDrivingLicenseApplications(int LocalDrivingLicenseApplicationID,int ApplicationID ,int LicenseClassID)
       {
         this.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplicationID;
         this.ApplicationID = ApplicationID;
@@ -35,11 +41,11 @@ public class clsLocalDrivingLicenseApplications
         _Mode = Mode.AddNew;
     }
        
-       public clsLocalDrivingLicenseApplications Find(int ID)
+       public static clsLocalDrivingLicenseApplications Find(int ID)
        {
         int ApplicationID = -1;
         int LicenseClassID = -1;
-        if(clsLocalDrivingLicenseApplicationsADL.GetLocalDrivingLiceseApplication(ID,ref ApplicationID,ref LicenseClassID))
+        if(clsLocalDrivingLicenseApplicationsADL.GetLocalDrivingLiceseApplicationByID(ID,ref ApplicationID,ref LicenseClassID))
         {
             return new clsLocalDrivingLicenseApplications(ID,ApplicationID,LicenseClassID);
         }
@@ -64,7 +70,7 @@ public class clsLocalDrivingLicenseApplications
                 break;
             case Mode.Update:
 
-                return false;
+                return _UpdataLDLA();
                 break;
            
         }
