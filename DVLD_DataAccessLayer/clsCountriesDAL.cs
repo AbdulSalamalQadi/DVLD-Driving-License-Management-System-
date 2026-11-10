@@ -78,7 +78,7 @@ using System.Data;
     {
         DataTable dt = new DataTable();
         SqlConnection con = new SqlConnection(clsDataAccessSetting.ConnectionString);
-        string Query = @"select *From Countries
+        string Query = @"select CountryName From Countries
                           ";
         SqlCommand cmd = new SqlCommand(Query, con);
 

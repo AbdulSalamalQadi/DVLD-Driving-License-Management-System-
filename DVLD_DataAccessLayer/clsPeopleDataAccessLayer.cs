@@ -481,5 +481,52 @@ namespace DVLD_DataAccessLayer
 
 
         }
+
+        public static DataTable GetMainPeopleInfo()
+        {
+            DataTable dataTable = new DataTable();
+
+            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
+            string Query = @"SELECT People.PersonID  as 'Person ID'
+                          , People.FirstName  as 'First Name'
+                          , People.SecondName as 'Second Name'
+                          , People.ThirdName   as  'Third Name'
+                          , People.LastName    as  'Last Name'
+                     , Case 
+                              WHen People.Gender =0 THEN 'Male'
+                              WHen People.Gender =1 THEN 'Female'
+                        end as Gender
+                          , People.DateOfBirth     as 'Date of Birth'
+                          , Countries.CountryName  as 'Nationality'
+                          , People.Phone
+                          , People.Email
+                  FROM   People INNER JOIN
+             Countries ON People.NationalityCountryID = Countries.CountryID";
+
+            SqlCommand cmd = new SqlCommand(Query, connection);
+
+
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    dataTable.Load(reader);
+                }
+
+                reader.Close();
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return dataTable;
+        }
     }
 }

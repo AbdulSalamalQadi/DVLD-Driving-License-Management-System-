@@ -12,7 +12,7 @@ namespace DVLD_BusinessLayer
     public class clsPeople
     {
         enum Mode { AddNew=1,Update}
-
+        public enum Gender { Male=0,Female=1};
         public int PersonID { get; set; }
         public string FirstName { get; set; }
         public string SecondName { get; set; }
@@ -27,7 +27,7 @@ namespace DVLD_BusinessLayer
         public  int NationalityCountryID { get; set; }
         public  string ImagePath { get; set; }
         Mode _Mode;
-
+        public Gender _Gender;
         public string FullName()
         {
             return FirstName+ " "+SecondName+" "+ThirdName+" "+LastName;
@@ -123,6 +123,7 @@ namespace DVLD_BusinessLayer
         }
 
 
+
         public static clsPeople Find(string NationaltNumber)
         {
             int ID = -1;
@@ -177,6 +178,10 @@ namespace DVLD_BusinessLayer
          public static bool DeletePerson(string NationalNo)
         {
             return clsPeopleDataAccessLayer.DeletePersonByNationalNo(NationalNo);
+        }
+        public static  DataTable GetAllPersonWithMainInformation()
+        {
+          return clsPeopleDataAccessLayer.GetMainPeopleInfo();
         }
 
 
