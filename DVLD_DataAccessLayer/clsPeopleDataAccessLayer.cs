@@ -488,6 +488,7 @@ namespace DVLD_DataAccessLayer
 
             SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
             string Query = @"SELECT People.PersonID  as 'Person ID'
+                          , People.NationalNo as 'National No'
                           , People.FirstName  as 'First Name'
                           , People.SecondName as 'Second Name'
                           , People.ThirdName   as  'Third Name'
@@ -518,7 +519,7 @@ namespace DVLD_DataAccessLayer
 
                 reader.Close();
             }
-            catch (Exception e)
+            catch (Exception)
             {
 
             }

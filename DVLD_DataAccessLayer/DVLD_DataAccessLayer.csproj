@@ -55,6 +55,7 @@
     <Compile Include="clsTestTypesDAL.cs" />
     <Compile Include="clsUsersDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="clsTestAppointmentsDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
