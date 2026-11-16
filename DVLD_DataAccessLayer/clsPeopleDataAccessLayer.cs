@@ -392,7 +392,22 @@ namespace DVLD_DataAccessLayer
             DataTable dataTable = new DataTable();
 
             SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
-            string Query = @"select * from People ";
+
+            string Query =
+              @"SELECT People.PersonID, People.NationalNo,
+              People.FirstName, People.SecondName, People.ThirdName, People.LastName,
+			  People.DateOfBirth, People.Gender,  
+				  CASE
+                  WHEN People.Gender = 0 THEN 'Male'
+
+                  ELSE 'Female'
+
+                  END as GendorCaption ,
+			  People.Address, People.Phone, People.Email, 
+              People.NationalityCountryID, Countries.CountryName, People.ImagePath
+              FROM            People INNER JOIN
+                         Countries ON People.NationalityCountryID = Countries.CountryID
+                ORDER BY People.FirstName";
             SqlCommand cmd = new SqlCommand(Query, connection);
 
 
@@ -482,52 +497,6 @@ namespace DVLD_DataAccessLayer
 
         }
 
-        public static DataTable GetMainPeopleInfo()
-        {
-            DataTable dataTable = new DataTable();
-
-            SqlConnection connection = new SqlConnection(clsDataAccessSetting.ConnectionString);
-            string Query = @"SELECT People.PersonID  as 'Person ID'
-                          , People.NationalNo as 'National No'
-                          , People.FirstName  as 'First Name'
-                          , People.SecondName as 'Second Name'
-                          , People.ThirdName   as  'Third Name'
-                          , People.LastName    as  'Last Name'
-                     , Case 
-                              WHen People.Gender =0 THEN 'Male'
-                              WHen People.Gender =1 THEN 'Female'
-                        end as Gender
-                          , People.DateOfBirth     as 'Date of Birth'
-                          , Countries.CountryName  as 'Nationality'
-                          , People.Phone
-                          , People.Email
-                  FROM   People INNER JOIN
-             Countries ON People.NationalityCountryID = Countries.CountryID";
-
-            SqlCommand cmd = new SqlCommand(Query, connection);
-
-
-
-            try
-            {
-                connection.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-                if (reader.HasRows)
-                {
-                    dataTable.Load(reader);
-                }
-
-                reader.Close();
-            }
-            catch (Exception)
-            {
-
-            }
-            finally
-            {
-                connection.Close();
-            }
-            return dataTable;
-        }
+      
     }
 }
